@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Converter Pro | محول PDF الاحترافي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.2/docx.umd.min.js"></script>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #1a2f50;
+    --navy-light: #2a4070;
+    --navy-accent: #1e3a6e;
+    --white: #ffffff;
+    --off-white: #f7f8fc;
+    --light-gray: #e8ecf4;
+    --mid-gray: #c0cad8;
+    --text-dark: #0a1628;
+    --text-mid: #3a4f6e;
+    --text-light: #6b7f9e;
+    --gold: #c8a84b;
+    --gold-light: #e8c96b;
+    --success: #1a7f5a;
+    --error: #c0392b;
+    --shadow-soft: 0 4px 24px rgba(10,22,40,0.08);
+    --shadow-mid: 0 8px 40px rgba(10,22,40,0.14);
+    --shadow-strong: 0 16px 64px rgba(10,22,40,0.20);
+    --border: 1px solid #dde3ef;
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    border-bottom: 3px solid var(--gold);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--gold);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .logo-text span { color: var(--gold); }
+  .header-badge {
+    background: rgba(200,168,75,0.18);
+    border: 1px solid rgba(200,168,75,0.4);
+    color: var(--gold-light);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 60px 32px 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-inner { position: relative; max-width: 700px; margin: 0 auto; }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--white);
+    border-bottom: var(--border);
+    box-shadow: var(--shadow-soft);
+  }
+  .stats-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    height: 64px;
+  }
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+  .stat-icon { font-size: 18px; }
+  .stat strong { color: var(--navy); font-weight: 700; }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .converter-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ── UPLOAD CARD ── */
+  .card {
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 24px 28px 20px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-header-icon {
+    width: 36px; height: 36px;
+    background: var(--navy);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .card-subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .card-body { padding: 28px; }
+
+  /* ── DROP ZONE ── */
+  .drop-zone {
+    border: 2px dashed var(--mid-gray);
+    border-radius: var(--radius);
+    padding: 56px 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: var(--off-white);
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--navy-mid);
+    background: #eef1f8;
+  }
+  .drop-zone.drag-over { transform: scale(1.01); }
+  .drop-zone input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .drop-icon {
+    font-size: 52px;
+    margin-bottom: 16px;
+    display: block;
+    filter: grayscale(0.3);
+  }
+  .drop-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .drop-sub {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+  .drop-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 28px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Tajawal', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .drop-btn:hover { background: var(--navy-mid); }
+
+  /* ── FILE PREVIEW ── */
+  .file-preview {
+    display: none;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--off-white);
+    border: var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+  }
+  .file-preview.show { display: flex; }
+  .file-thumb {
+    width: 52px; height: 64px;
+    background: var(--navy);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .file-thumb::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 14px 14px 0;
+    border-color: transparent var(--gold) transparent transparent;
+    border-radius: 0 8px 0 0;
+  }
+  .file-info { flex: 1; min-width: 0; }
+  .file-name {
+    font-size: 14px; font-weight: 700; color: var(--navy);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .file-meta { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .file-remove {
+    width: 30px; height: 30px;
+    border: var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: var(--text-light);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .file-remove:hover { background: #fee; border-color: #fcc; color: var(--error); }
+
+  /* ── FORMAT SELECT ── */
+  .format-label {
+    font-size: 14px; font-weight: 700; color: var(--navy);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .format-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .format-card {
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius);
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+    position: relative;
+  }
+  .format-card:hover { border-color: var(--navy-mid); background: var(--off-white); }
+  .format-card.active {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: var(--white);
+  }
+  .format-card input { display: none; }
+  .format-emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+  .format-name { font-size: 13px; font-weight: 700; }
+  .format-ext { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+  .format-card.active .check {
+    position: absolute; top: 6px; left: 6px;
+    width: 18px; height: 18px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--navy); font-weight: 900;
+  }
+  .check { display: none; }
+
+  /* ── OPTIONS ── */
+  .options-section {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: var(--off-white);
+    border-radius: var(--radius);
+    border: var(--border);
+  }
+  .options-title {
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .option-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px; color: var(--text-mid);
+  }
+  .option-row:last-child { margin-bottom: 0; }
+  .toggle {
+    width: 40px; height: 22px;
+    background: var(--mid-gray);
+    border-radius: 11px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    border: none;
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--navy); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 16px; height: 16px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle.on::after { transform: translateX(-18px); }
+
+  /* ── CONVERT BTN ── */
+  .convert-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .convert-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 100%; height: 3px;
+    background: var(--gold);
+  }
+  .convert-btn:hover:not(:disabled) {
+    background: var(--navy-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(10,22,40,0.2);
+  }
+  .convert-btn:disabled {
+    background: var(--mid-gray);
+    cursor: not-allowed;
+    transform: none;
+  }
+  .convert-btn:disabled::before { display: none; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    display: none;
+    margin-top: 20px;
+  }
+  .progress-wrap.show { display: block; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+  .progress-bar {
+    height: 8px;
+    background: var(--light-gray);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+  .progress-steps {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .step-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--text-light);
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .step-item.active { opacity: 1; color: var(--navy); font-weight: 600; }
+  .step-item.done { opacity: 0.7; color: var(--success); }
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--mid-gray);
+    flex-shrink: 0;
+  }
+  .step-item.active .step-dot { background: var(--navy); }
+  .step-item.done .step-dot { background: var(--success); }
+
+  /* ── RESULT ── */
+  .result-card {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #f0fdf7;
+    border: 1px solid #a7f3d0;
+  }
+  .result-card.show { display: block; }
+  .result-card.error {
+    background: #fff5f5;
+    border-color: #fecaca;
+  }
+  .result-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .result-icon { font-size: 22px; }
+  .result-title { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .result-sub { font-size: 12px; color: var(--text-light); }
+  .download-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%;
+    padding: 12px;
+    background: var(--success);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .download-btn:hover { background: #155c42; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  .info-card {
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+  .info-card-header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .info-card-body { padding: 20px; }
+
+  .format-detail {
+    padding: 14px;
+    border-radius: 8px;
+    border: var(--border);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .format-detail:last-child { margin-bottom: 0; }
+  .format-detail:hover { border-color: var(--navy-mid); background: var(--off-white); }
+  .format-detail-top {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .format-badge {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-excel { background: #e8f5e9; color: #2e7d32; }
+  .badge-word { background: #e3f2fd; color: #1565c0; }
+  .badge-img { background: #fff3e0; color: #e65100; }
+  .format-detail p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+
+  .tips-list { list-style: none; }
+  .tips-list li {
+    display: flex; gap: 10px;
+    padding: 10px 0;
+    border-bottom: var(--border);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .tips-list li:last-child { border-bottom: none; }
+  .tip-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 28px 32px;
+    font-size: 13px;
+    border-top: 3px solid var(--gold);
+  }
+  footer strong { color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .converter-grid { grid-template-columns: 1fr; }
+    .header-inner { padding: 0 16px; }
+    .stats-inner { gap: 24px; flex-wrap: wrap; height: auto; padding: 16px; }
+    main { padding: 28px 16px 60px; }
+    .hero { padding: 40px 16px 50px; }
+    .format-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">📄</div>
+      <div>
+        <div class="logo-text">PDF <span>Converter</span> Pro</div>
+      </div>
+    </div>
+    <div class="header-badge">✦ مجاني 100%</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>حوّل ملفات <span>PDF</span> بدقة احترافية</h1>
+    <p>أداة متكاملة لتحويل ملفات PDF إلى Excel أو Word أو صور عالية الجودة — بدون إنترنت، بدون تسجيل، مجاناً تماماً</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><span class="stat-icon">⚡</span> <span>سرعة <strong>فائقة</strong></span></div>
+    <div class="stat"><span class="stat-icon">🔒</span> <span>ملفاتك <strong>آمنة</strong> لا ترفع</span></div>
+    <div class="stat"><span class="stat-icon">💯</span> <span>دقة <strong>عالية</strong></span></div>
+    <div class="stat"><span class="stat-icon">🆓</span> <span>مجاني <strong>بالكامل</strong></span></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="converter-grid">
+
+    <!-- LEFT: Converter -->
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">📁</div>
+          <div>
+            <div class="card-title">رفع ملف PDF</div>
+            <div class="card-subtitle">اختر الملف ثم حدد صيغة التحويل المطلوبة</div>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <!-- File Preview -->
+          <div class="file-preview" id="filePreview">
+            <div class="file-thumb">PDF</div>
+            <div class="file-info">
+              <div class="file-name" id="fileName">—</div>
+              <div class="file-meta" id="fileMeta">—</div>
+            </div>
+            <button class="file-remove" id="fileRemove" title="إزالة الملف">✕</button>
+          </div>
+
+          <!-- Drop Zone -->
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept=".pdf" />
+            <span class="drop-icon">📂</span>
+            <div class="drop-title">اسحب ملف PDF هنا</div>
+            <div class="drop-sub">أو اضغط لاختيار الملف من جهازك<br>الحد الأقصى: 50 ميجا</div>
+            <button class="drop-btn" type="button" onclick="document.getElementById('fileInput').click()">اختر ملف</button>
+          </div>
+
+          <!-- Format Selection -->
+          <div style="margin-top: 24px;">
+            <span class="format-label">📌 اختر صيغة التحويل</span>
+            <div class="format-grid">
+              <label class="format-card active" onclick="selectFormat(this,'excel')">
+                <input type="radio" name="format" value="excel" checked>
+                <div class="check">✓</div>
+                <span class="format-emoji">📊</span>
+                <div class="format-name">Excel</div>
+                <div class="format-ext">.xlsx</div>
+              </label>
+              <label class="format-card" onclick="selectFormat(this,'word')">
+                <input type="radio" name="format" value="word">
+                <div class="check">✓</div>
+                <span class="format-emoji">📝</span>
+                <div class="format-name">Word</div>
+                <div class="format-ext">.docx</div>
+              </label>
+              <label class="format-card" onclick="selectFormat(this,'images')">
+                <input type="radio" name="format" value="images">
+                <div class="check">✓</div>
+                <span class="format-emoji">🖼️</span>
+                <div class="format-name">صور</div>
+                <div class="format-ext">.png</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div class="options-section" id="optionsSection">
+            <div class="options-title">⚙️ إعدادات التحويل</div>
+            <div id="excelOptions">
+              <div class="option-row">
+                <span>استخراج الجداول فقط</span>
+                <button class="toggle" onclick="this.classList.toggle('on')" title="تبديل"></button>
+              </div>
+              <div class="option-row">
+                <span>ترقيم الصفحات</span>
+                <button class="toggle on" onclick="this.classList.toggle('on')" title="تبديل"></button>
+              </div>
+            </div>
+            <div id="wordOptions" style="display:none">
+              <div class="option-row">
+                <span>الحفاظ على التنسيق</span>
+                <button class="toggle on" onclick="this.classList.toggle('on')" title="تبديل"></button>
+              </div>
+              <div class="option-row">
+                <span>تضمين الصور</span>
+                <button class="toggle on" onclick="this.classList.toggle('on')" title="تبديل"></button>
+              </div>
+            </div>
+            <div id="imagesOptions" style="display:none">
+              <div class="option-row">
+                <span>دقة الصورة (DPI)</span>
+                <select style="border:1px solid var(--light-gray);border-radius:6px;padding:4px 10px;font-family:Tajawal;font-size:13px;color:var(--navy);background:white">
+                  <option>150 DPI — عادي</option>
+                  <option selected>200 DPI — جيد</option>
+                  <option>300 DPI — عالي</option>
+                </select>
+              </div>
+              <div class="option-row">
+                <span>تحميل كملف ZIP</span>
+                <button class="toggle on" id="zipToggle" onclick="this.classList.toggle('on')" title="تبديل"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Convert Button -->
+          <button class="convert-btn" id="convertBtn" onclick="startConvert()" disabled>
+            <span>🔄</span> ابدأ التحويل
+          </button>
+
+          <!-- Progress -->
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-label">
+              <span id="progressText">جاري المعالجة...</span>
+              <span id="progressPct">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps" id="progressSteps"></div>
+          </div>
+
+          <!-- Result -->
+          <div class="result-card" id="resultCard">
+            <div class="result-header">
+              <div class="result-icon" id="resultIcon">✅</div>
+              <div>
+                <div class="result-title" id="resultTitle">تم التحويل بنجاح!</div>
+                <div class="result-sub" id="resultSub">ملفك جاهز للتنزيل</div>
+              </div>
+            </div>
+            <a class="download-btn" id="downloadBtn" href="#" download>
+              ⬇️ تنزيل الملف
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="sidebar">
+
+      <!-- Format Guide -->
+      <div class="info-card">
+        <div class="info-card-header">📋 دليل الصيغ</div>
+        <div class="info-card-body">
+          <div class="format-detail">
+            <div class="format-detail-top">
+              <span>📊</span>
+              <span class="format-badge badge-excel">EXCEL</span>
+            </div>
+            <p>مثالي للجداول والبيانات والأرقام. يستخرج النصوص ويرتبها في خلايا منظمة.</p>
+          </div>
+          <div class="format-detail">
+            <div class="format-detail-top">
+              <span>📝</span>
+              <span class="format-badge badge-word">WORD</span>
+            </div>
+            <p>مثالي للمستندات والتقارير. يحافظ على التنسيق والعناوين والفقرات.</p>
+          </div>
+          <div class="format-detail">
+            <div class="format-detail-top">
+              <span>🖼️</span>
+              <span class="format-badge badge-img">IMAGE</span>
+            </div>
+            <p>يحول كل صفحة لصورة PNG عالية الجودة. مثالي للعروض والمشاركة.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="info-card">
+        <div class="info-card-header">💡 نصائح للحصول على أفضل نتيجة</div>
+        <div class="info-card-body">
+          <ul class="tips-list">
+            <li><span class="tip-icon">📄</span> تأكد أن الـ PDF يحتوي على نص قابل للتحديد وليس صوراً فقط</li>
+            <li><span class="tip-icon">📊</span> للجداول: استخدم تحويل Excel للحصول على بيانات منظمة</li>
+            <li><span class="tip-icon">🖼️</span> للملفات المسحوبة (scanned): استخدم تحويل الصور</li>
+            <li><span class="tip-icon">⚡</span> الملفات الأصغر = تحويل أسرع وأدق</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div>PDF Converter Pro &mdash; تحت إشراف وتطوير <strong>أحمد سلام</strong></div>
+  <div style="margin-top:6px;font-size:12px">جميع الملفات تُعالَج على جهازك مباشرةً &mdash; لا يتم رفع أي بيانات</div>
+</footer>
+
+<!-- ======================== SCRIPTS ======================== -->
+<script>
+// PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let currentFile = null;
+let currentFormat = 'excel';
+
+// ── FORMAT SELECTION ──
+function selectFormat(el, fmt) {
+  document.querySelectorAll('.format-card').forEach(c => {
+    c.classList.remove('active');
+    c.querySelector('.check').style.display = 'none';
+  });
+  el.classList.add('active');
+  el.querySelector('.check').style.display = 'flex';
+  currentFormat = fmt;
+  document.getElementById('excelOptions').style.display = fmt === 'excel' ? '' : 'none';
+  document.getElementById('wordOptions').style.display  = fmt === 'word'  ? '' : 'none';
+  document.getElementById('imagesOptions').style.display = fmt === 'images'? '' : 'none';
+  hideResult();
+}
+
+// ── FILE HANDLING ──
+const fileInput = document.getElementById('fileInput');
+const dropZone  = document.getElementById('dropZone');
+
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type === 'application/pdf') handleFile(f);
+  else showError('يُرجى اختيار ملف PDF فقط.');
+});
+
+document.getElementById('fileRemove').addEventListener('click', () => {
+  currentFile = null;
+  document.getElementById('filePreview').classList.remove('show');
+  dropZone.style.display = '';
+  fileInput.value = '';
+  document.getElementById('convertBtn').disabled = true;
+  hideResult();
+  hideProgress();
+});
+
+function handleFile(file) {
+  if (!file) return;
+  if (file.type !== 'application/pdf') { showError('يُرجى اختيار ملف PDF فقط.'); return; }
+  if (file.size > 50 * 1024 * 1024) { showError('حجم الملف يتجاوز 50 ميجا.'); return; }
+  currentFile = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileMeta').textContent = formatSize(file.size) + ' — PDF';
+  document.getElementById('filePreview').classList.add('show');
+  dropZone.style.display = 'none';
+  document.getElementById('convertBtn').disabled = false;
+  hideResult(); hideProgress();
+}
+
+function formatSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/1024/1024).toFixed(2) + ' MB';
+}
+
+// ── PROGRESS ──
+function showProgress(steps) {
+  const wrap = document.getElementById('progressWrap');
+  wrap.classList.add('show');
+  const stepsEl = document.getElementById('progressSteps');
+  stepsEl.innerHTML = steps.map((s,i) => `
+    <div class="step-item" id="step${i}">
+      <div class="step-dot"></div><span>${s}</span>
+    </div>
+  `).join('');
+  setProgress(0, steps[0]);
+}
+function setStep(i, done=false) {
+  const steps = document.querySelectorAll('.step-item');
+  steps.forEach((s,j) => {
+    s.className = 'step-item';
+    if (j < i) s.classList.add('done');
+    if (j === i && !done) s.classList.add('active');
+    if (j === i && done) s.classList.add('done');
+  });
+}
+function setProgress(pct, label='') {
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = Math.round(pct) + '%';
+  if (label) document.getElementById('progressText').textContent = label;
+}
+function hideProgress() {
+  document.getElementById('progressWrap').classList.remove('show');
+}
+
+// ── RESULT ──
+function showSuccess(url, name) {
+  const rc = document.getElementById('resultCard');
+  rc.className = 'result-card show';
+  document.getElementById('resultIcon').textContent = '✅';
+  document.getElementById('resultTitle').textContent = 'تم التحويل بنجاح!';
+  document.getElementById('resultSub').textContent = 'ملفك جاهز للتنزيل الآن';
+  const btn = document.getElementById('downloadBtn');
+  btn.href = url; btn.download = name;
+  btn.style.display = 'flex';
+}
+function showError(msg) {
+  const rc = document.getElementById('resultCard');
+  rc.className = 'result-card error show';
+  document.getElementById('resultIcon').textContent = '❌';
+  document.getElementById('resultTitle').textContent = 'حدث خطأ';
+  document.getElementById('resultSub').textContent = msg;
+  document.getElementById('downloadBtn').style.display = 'none';
+}
+function hideResult() {
+  document.getElementById('resultCard').className = 'result-card';
+}
+
+// ── MAIN CONVERT ──
+async function startConvert() {
+  if (!currentFile) return;
+  hideResult(); hideProgress();
+  document.getElementById('convertBtn').disabled = true;
+
+  try {
+    const arrayBuffer = await currentFile.arrayBuffer();
+    if (currentFormat === 'excel')  await convertToExcel(arrayBuffer);
+    else if (currentFormat === 'word') await convertToWord(arrayBuffer);
+    else await convertToImages(arrayBuffer);
+  } catch(e) {
+    console.error(e);
+    showError('فشل التحويل: ' + (e.message || 'خطأ غير متوقع'));
+  } finally {
+    document.getElementById('convertBtn').disabled = false;
+  }
+}
+
+// ───────────────────────────────────────────────
+//  EXCEL CONVERSION
+// ───────────────────────────────────────────────
+async function convertToExcel(arrayBuffer) {
+  showProgress(['تحميل ملف PDF','استخراج النصوص والبيانات','تنظيم الخلايا والجداول','إنشاء ملف Excel']);
+  setStep(0);
+
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+  setProgress(20, 'استخراج النصوص...');
+  setStep(1);
+
+  const wb = XLSX.utils.book_new();
+  const totalPages = pdf.numPages;
+
+  for (let p = 1; p <= totalPages; p++) {
+    const page = await pdf.getPage(p);
+    const tc = await page.getTextContent();
+
+    // Group items by approximate Y position (lines)
+    const lines = {};
+    tc.items.forEach(item => {
+      if (!item.str.trim()) return;
+      const y = Math.round(item.transform[5] / 10) * 10;
+      if (!lines[y]) lines[y] = [];
+      lines[y].push({ x: item.transform[4], text: item.str });
+    });
+
+    const sortedYs = Object.keys(lines).map(Number).sort((a,b) => b - a);
+    const rows = sortedYs.map(y => {
+      const lineItems = lines[y].sort((a,b) => a.x - b.x);
+      return lineItems.map(i => i.text);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+
+    // Auto column width
+    const colWidths = [];
+    rows.forEach(row => {
+      row.forEach((cell, ci) => {
+        const len = String(cell).length;
+        if (!colWidths[ci] || colWidths[ci] < len) colWidths[ci] = len;
+      });
+    });
+    ws['!cols'] = colWidths.map(w => ({ wch: Math.min(w + 2, 50) }));
+
+    XLSX.utils.book_append_sheet(wb, ws, `صفحة ${p}`);
+    setProgress(20 + (p/totalPages)*60, `معالجة صفحة ${p} من ${totalPages}...`);
+  }
+
+  setStep(2); setProgress(85, 'تنظيم الخلايا...');
+  await delay(300);
+  setStep(3); setProgress(95, 'إنشاء ملف Excel...');
+  await delay(200);
+
+  const wbArray = XLSX.write(wb, {bookType:'xlsx', type:'array'});
+  const blob = new Blob([wbArray], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const name = currentFile.name.replace('.pdf','') + '.xlsx';
+
+  setProgress(100, 'اكتمل!');
+  setStep(3, true);
+  await delay(400);
+  hideProgress();
+  showSuccess(url, name);
+}
+
+// ───────────────────────────────────────────────
+//  WORD CONVERSION
+// ───────────────────────────────────────────────
+async function convertToWord(arrayBuffer) {
+  showProgress(['تحميل ملف PDF','استخراج المحتوى','تنسيق المستند','إنشاء ملف Word']);
+  setStep(0);
+
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+  setProgress(20, 'استخراج النصوص...');
+  setStep(1);
+
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = docx;
+
+  const children = [];
+  const totalPages = pdf.numPages;
+
+  for (let p = 1; p <= totalPages; p++) {
+    if (p > 1) {
+      children.push(new Paragraph({ children: [new PageBreak()] }));
+    }
+
+    // Page heading
+    children.push(new Paragraph({
+      text: `— صفحة ${p} —`,
+      heading: HeadingLevel.HEADING_2,
+      spacing: { after: 200 }
+    }));
+
+    const page = await pdf.getPage(p);
+    const tc   = await page.getTextContent();
+
+    // Group by Y lines (same as Excel)
+    const lines = {};
+    tc.items.forEach(item => {
+      if (!item.str.trim()) return;
+      const y = Math.round(item.transform[5] / 8) * 8;
+      if (!lines[y]) lines[y] = [];
+      lines[y].push({ x: item.transform[4], text: item.str, h: item.height });
+    });
+
+    const sortedYs = Object.keys(lines).map(Number).sort((a,b) => b - a);
+    sortedYs.forEach(y => {
+      const lineItems = lines[y].sort((a,b) => a.x - b.x);
+      const lineText  = lineItems.map(i => i.text).join(' ').trim();
+      const avgH = lineItems.reduce((s,i) => s + i.h, 0) / lineItems.length;
+
+      if (!lineText) return;
+
+      if (avgH > 14) {
+        children.push(new Paragraph({
+          text: lineText,
+          heading: HeadingLevel.HEADING_3,
+          spacing: { before: 160, after: 80 }
+        }));
+      } else {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: lineText, size: 22 })],
+          spacing: { after: 80 },
+          bidirectional: true
+        }));
+      }
+    });
+
+    setProgress(20 + (p/totalPages)*60, `معالجة صفحة ${p} من ${totalPages}...`);
+  }
+
+  setStep(2); setProgress(85, 'تنسيق المستند...');
+  await delay(300);
+  setStep(3); setProgress(95, 'إنشاء ملف Word...');
+
+  const doc = new Document({
+    sections: [{ properties: {}, children }],
+    styles: {
+      default: {
+        document: {
+          run: { font: 'Times New Roman', size: 22, rightToLeft: false }
+        }
+      }
+    }
+  });
+
+  const blob = await Packer.toBlob(doc);
+  const url  = URL.createObjectURL(blob);
+  const name = currentFile.name.replace('.pdf','') + '.docx';
+
+  setProgress(100, 'اكتمل!');
+  setStep(3, true);
+  await delay(400);
+  hideProgress();
+  showSuccess(url, name);
+}
+
+// ───────────────────────────────────────────────
+//  IMAGES CONVERSION
+// ───────────────────────────────────────────────
+async function convertToImages(arrayBuffer) {
+  showProgress(['تحميل ملف PDF','تحويل الصفحات','ضغط الصور','تجميع الملفات']);
+  setStep(0);
+
+  const dpiSelect = document.querySelector('#imagesOptions select');
+  const dpiText = dpiSelect ? dpiSelect.value : '200 DPI';
+  const dpi = parseInt(dpiText) || 200;
+  const scale = dpi / 72;
+
+  const useZip = document.getElementById('zipToggle')?.classList.contains('on') ?? true;
+
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+  const total = pdf.numPages;
+  setProgress(15, 'تحويل الصفحات إلى صور...');
+  setStep(1);
+
+  const blobs = [];
+  const canvas = document.createElement('canvas');
+  const ctx    = canvas.getContext('2d');
+
+  for (let p = 1; p <= total; p++) {
+    const page      = await pdf.getPage(p);
+    const viewport  = page.getViewport({scale});
+    canvas.width    = viewport.width;
+    canvas.height   = viewport.height;
+    ctx.fillStyle   = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({canvasContext: ctx, viewport}).promise;
+
+    const dataUrl = canvas.toDataURL('image/png');
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    blobs.push({ name: `page_${String(p).padStart(3,'0')}.png`, blob });
+    setProgress(15 + (p/total)*65, `تحويل صفحة ${p} من ${total}...`);
+  }
+
+  setStep(2); setProgress(82, 'ضغط الصور...');
+  await delay(200);
+  setStep(3); setProgress(92, 'تجميع الملفات...');
+
+  if (!useZip || total === 1) {
+    // Single image download or no zip
+    const url  = URL.createObjectURL(blobs[0].blob);
+    const name = currentFile.name.replace('.pdf','') + (total===1 ? '_page_1.png' : '_صفحة_1.png');
+    setProgress(100, 'اكتمل!'); setStep(3,true);
+    await delay(400); hideProgress();
+    if (total === 1) {
+      showSuccess(url, name);
+    } else {
+      // Download all individually via sequential anchor clicks
+      blobs.forEach((b, i) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b.blob);
+        a.download = currentFile.name.replace('.pdf','') + `_page_${i+1}.png`;
+        setTimeout(() => { document.body.appendChild(a); a.click(); document.body.removeChild(a); }, i*300);
+      });
+      const rc = document.getElementById('resultCard');
+      rc.className = 'result-card show';
+      document.getElementById('resultIcon').textContent = '✅';
+      document.getElementById('resultTitle').textContent = `تم التحويل! ${total} صورة`;
+      document.getElementById('resultSub').textContent = 'جاري تنزيل الصور تلقائياً...';
+      document.getElementById('downloadBtn').style.display = 'none';
+    }
+  } else {
+    // ZIP using JSZip if available, else individual
+    if (typeof JSZip !== 'undefined') {
+      const zip = new JSZip();
+      const folder = zip.folder(currentFile.name.replace('.pdf',''));
+      blobs.forEach(b => folder.file(b.name, b.blob));
+      const zipBlob = await zip.generateAsync({type:'blob'});
+      const url = URL.createObjectURL(zipBlob);
+      const name = currentFile.name.replace('.pdf','') + '_images.zip';
+      setProgress(100,'اكتمل!'); setStep(3,true);
+      await delay(400); hideProgress();
+      showSuccess(url, name);
+    } else {
+      // No JSZip: download pages one by one
+      blobs.forEach((b, i) => {
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(b.blob);
+          a.download = b.name;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        }, i*350);
+      });
+      setProgress(100,'اكتمل!'); setStep(3,true);
+      await delay(400); hideProgress();
+      const rc = document.getElementById('resultCard');
+      rc.className = 'result-card show';
+      document.getElementById('resultIcon').textContent = '✅';
+      document.getElementById('resultTitle').textContent = `تم التحويل! ${total} صورة`;
+      document.getElementById('resultSub').textContent = 'جاري تنزيل الصور تلقائياً...';
+      document.getElementById('downloadBtn').style.display = 'none';
+    }
+  }
+}
+
+// ── UTILS ──
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+
+<!-- Optional: JSZip for ZIP export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
